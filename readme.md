@@ -1,13 +1,120 @@
-# 📈 Credit Risk Prediction Project
+# 💳 End-to-End Credit Risk Scoring Engine
 
-A robust, production-ready machine learning project for predicting credit risk using real-world financial application data from the [Home Credit Default Risk](https://www.kaggle.com/competitions/home-credit-default-risk/) competition.
+A production-ready Machine Learning system that predicts loan default probability using alternative data. This project implements a full ML lifecycle: from advanced feature engineering on the Home Credit Default Risk dataset to a containerized deployment serving real-time predictions via REST API and an interactive dashboard.
 
-This project uses:
+## 🚀 Key Features
 
-* Machine learning models (Logistic Regression, XGBoost, LightGBM, CatBoost)
-* FastAPI for prediction API
-* Streamlit for interactive UI
-* Docker support for both FastAPI and Streamlit services
+⚡ High-Performance Inference: Built with FastAPI for low-latency predictions (<100ms).
+
+🧠 Advanced Modeling: Implements an ensemble of CatBoost, XGBoost, and LightGBM, achieving an AUC-ROC of 0.78, significantly outperforming the logistic regression baseline.
+
+🐳 Containerized Architecture: Fully Dockerized application ensuring reproducibility across Dev and Prod environments.
+
+📊 Interactive UI: User-friendly Streamlit dashboard for loan officers to input data and visualize risk probabilities.
+
+🛠️ Robust Pipeline: Modular codebase separating data loading, feature engineering (src/feature_engineering.py), and inference logic.
+
+## 🏗️ System Architecture
+
+<img width="928" height="851" alt="image" src="https://github.com/user-attachments/assets/0b4fab3b-a4c3-488f-a1eb-3a6d59d0110f" />
+
+
+
+## 🛠️ Tech Stack
+
+Machine Learning: Scikit-Learn, CatBoost, XGBoost, LightGBM, SHAP (Explainability).
+
+API & Backend: FastAPI, Uvicorn, Pydantic.
+
+Frontend: Streamlit.
+
+DevOps: Docker, Joblib (Serialization).
+
+Data Processing: Pandas, NumPy, Regex.
+
+## 📊 Model Performance
+
+I benchmarked multiple algorithms to optimize for the AUC-ROC metric (Area Under the Curve), critical for imbalanced classification tasks like fraud/default prediction.
+
+Model
+
+AUC-ROC Score
+
+Notes
+
+CatBoost (Final)
+
+0.776
+
+Best performance, handles categorical features natively.
+
+LightGBM
+
+0.771
+
+Fast training, high accuracy.
+
+XGBoost
+
+0.764
+
+Strong baseline gradient boosting.
+
+Logistic Regression
+
+0.754
+
+Simple baseline for interpretability.
+
+The final deployed model uses CatBoost due to its superior stability and handling of categorical variables.
+
+## 🐳 Running with Docker (Recommended)
+
+You can spin up the entire system (API + UI) with a single command.
+
+1. Build the Images
+
+### Build the API service
+docker build -f Dockerfile.fastapi -t credit-risk-api .
+
+### Build the Streamlit UI
+docker build -f Dockerfile.streamlit -t credit-risk-ui .
+
+
+2. Run Containers
+
+### Start API on port 8000
+docker run -d -p 8000:8000 credit-risk-api
+
+### Start UI on port 8501
+docker run -d -p 8501:8501 credit-risk-ui
+
+
+3. Access the App
+
+API Swagger Docs: http://localhost:8000/docs - Test endpoints directly.
+
+Dashboard: http://localhost:8501 - Interactive form.
+
+## 🧪 Local Installation (No Docker)
+
+### Clone the repo
+git clone [https://github.com/amriteshp2000/credit-risk-predictor.git](https://github.com/amriteshp2000/credit-risk-predictor.git)
+cd credit-risk-predictor
+
+### Create virtual env
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+### Install dependencies
+pip install -r requirements.txt
+
+### Run FastAPI Server
+python app/main.py serve
+
+### In a new terminal, run Streamlit
+python app/main.py
+
 
 ---
 
@@ -73,72 +180,6 @@ Serialized trained models:
 
 ---
 
-## 🐳 Dockerized Setup
-
-### Step 1: Build Docker Images
-
-```bash
-# Build FastAPI container
-docker build -f Dockerfile.fastapi -t credit-risk-api .
-
-# Build Streamlit container
-docker build -f Dockerfile.streamlit -t credit-risk-ui .
-```
-
-### Step 2: Run Docker Containers
-
-```bash
-# Run FastAPI on port 8000
-docker run -p 8000:8000 credit-risk-api
-
-# Run Streamlit on port 8501
-docker run -p 8501:8501 credit-risk-ui
-```
-
-### Access Points
-
-* FastAPI Swagger: [http://localhost:8000/docs](http://localhost:8000/docs)
-* Streamlit App: [http://localhost:8501](http://localhost:8501)
-
----
-
-## 🧪 Local Development Setup (No Docker)
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/<your-username>/credit-risk-project.git
-cd credit-risk-project
-```
-
-### 2. Setup Python Environment
-
-```bash
-python -m venv venv
-# Windows:
-venv\Scripts\activate
-# macOS/Linux:
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Run the App
-
-```bash
-# Run FastAPI server
-python app/main.py serve
-
-# Run Streamlit app
-python app/main.py
-```
-
----
-
 ## 🔐 Tips for Production Use
 
 * Use `.env` to store sensitive keys and secrets
@@ -155,3 +196,4 @@ python app/main.py
 * Libraries: FastAPI, Streamlit, XGBoost, LightGBM, CatBoost, SHAP
 
 ---
+
