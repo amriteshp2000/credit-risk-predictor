@@ -10,8 +10,7 @@ import joblib
 import uvicorn
 import streamlit as st
 import re
-from components.form import get_user_input_form  # ✅ Correct import
-
+from components.form import get_user_input_form  
 import nest_asyncio
 
 # ---------------------------- MODEL SETUP ----------------------------
@@ -30,7 +29,7 @@ class UserData(BaseModel):
 
 @app.get("/")
 def root():
-    return {"message": "✅ FastAPI is running!"}
+    return {"message": "FastAPI is running!"}
 
 @app.post("/predict")
 def predict(user_data: UserData):
@@ -60,7 +59,6 @@ def run_streamlit_app():
     st.set_page_config(page_title="Credit Risk Prediction", layout="wide")
     st.title("💳 Credit Risk Prediction App")
 
-    # ✅ Correct function name
     user_input = get_user_input_form()
 
     if st.button("Predict Credit Risk"):
@@ -77,7 +75,7 @@ def run_streamlit_app():
         prediction = model.predict(user_df)[0]
         probability = model.predict_proba(user_df)[0][1]
 
-        st.success(f"✅ Prediction: {'High Risk' if prediction == 1 else 'Low Risk'}")
+        st.success(f"Prediction: {'High Risk' if prediction == 1 else 'Low Risk'}")
         st.info(f"📊 Probability of Default: {probability:.2%}")
 
 # ---------------------------- ENTRY POINT ----------------------------
